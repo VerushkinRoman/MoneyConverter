@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardLayoutStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/currency"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/name_prefix"
+            app:layout_constraintStart_toEndOf="@id/name_prefix"
+            tools:text="Австралийский доллар" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/char_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/name"
+            tools:text="(AUD)" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/price_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_prefix" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/price_prefix"
+            app:layout_constraintStart_toEndOf="@id/price_prefix"
+            tools:text="77.9943" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/quantity_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_prefix"
+            app:layout_constraintBaseline_toBaselineOf="@id/price"
+            app:layout_constraintStart_toEndOf="@id/price" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/quantity_prefix"
+            app:layout_constraintStart_toEndOf="@id/quantity_prefix"
+            tools:text="1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/quantity_postfix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/items"
+            app:layout_constraintBaseline_toBaselineOf="@id/quantity"
+            app:layout_constraintStart_toEndOf="@id/quantity" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/currency_converter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="convert_text,currency_converter_layout,result_prefix,result"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/convert_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="@string/converter_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price_prefix" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/currency_converter_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/amount"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toBottomOf="@id/convert_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/currency_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:singleLine="true"
+                tools:ignore="TextContrastCheck"
+                tools:text="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/result_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currency_converter_layout" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintBaseline_toBaselineOf="@id/result_prefix"
+            app:layout_constraintStart_toEndOf="@id/result_prefix"
+            tools:ignore="HardcodedText"
+            tools:text="155.9886" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

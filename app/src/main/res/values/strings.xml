@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MoneyConverter</string>
+    <string name="currency">Currency:</string>
+    <string name="price">Price:</string>
+    <string name="quantity_prefix">RUB for</string>
+    <string name="items">items</string>
+    <string name="time_passed_since_last_refresh">Time passed since last refresh:</string>
+    <string name="amount">Amount</string>
+    <string name="converter_text">Enter amount in RUB to convert to this currency</string>
+    <string name="result">Result:</string>
+    <string name="back_again_to_exit">Press \"BACK\" again to exit!</string>
+</resources>
