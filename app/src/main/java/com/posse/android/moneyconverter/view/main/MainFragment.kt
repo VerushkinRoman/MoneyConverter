@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.posse.android.moneyconverter.R
 import com.posse.android.moneyconverter.databinding.MainFragmentLayoutBinding
 import com.posse.android.moneyconverter.model.AppState
 import com.posse.android.moneyconverter.model.data.Currency
@@ -17,6 +18,7 @@ import com.posse.android.moneyconverter.utils.NetworkStatus
 import com.posse.android.moneyconverter.utils.syncTime
 import com.posse.android.moneyconverter.view.main.adapter.Adapter
 import com.posse.android.moneyconverter.view.main.viewModel.MainFragmentViewModel
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -35,11 +37,16 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private var adapter: Adapter? = null
 
-    private var isOnline = false
+    private var isOnline: Boolean? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,9 +83,17 @@ class MainFragment : Fragment() {
             changeLoadingAnimation(false)
         } else {
             adapter?.clear()
-            if (isOnline && System.currentTimeMillis() - sharedPreferences.syncTime > DAY) {
-                viewModel.getData(true)
-            } else viewModel.getData(false)
+            coroutineScope.launch {
+                var timeout = 0L
+                val delay = 50L
+                while (isOnline == null && timeout < 1000) {
+                    delay(delay)
+                    timeout += delay
+                }
+                val online =
+                    isOnline == true && System.currentTimeMillis() - sharedPreferences.syncTime > DAY
+                withContext(Dispatchers.Main) { viewModel.getData(online) }
+            }
         }
     }
 
@@ -93,13 +108,19 @@ class MainFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 if (appState.data is Response) {
-                    sharedPreferences.syncTime = System.currentTimeMillis()
-                    appState.data.Valute.valutes.forEach {
-                        adapter?.setSingleData(it.value)
+                    if (appState.data.Timestamp != null) sharedPreferences.syncTime =
+                        System.currentTimeMillis()
+                    if (appState.data.Valute.isEmpty()) {
+                        recyclerCard.visibility = View.INVISIBLE
+                    } else {
+                        appState.data.Valute.forEach {
+                            adapter?.setSingleData(it.value)
+                        }
+                        recyclerCard.visibility = View.VISIBLE
                     }
                     loadingLayout.visibility = View.INVISIBLE
                     changeLoadingAnimation(false)
-                } else throw RuntimeException("Wrong data type: ${appState.data}")
+                } else throw RuntimeException(getString(R.string.wrong_data) + " " + appState.data)
             }
 
             is AppState.Error -> {
@@ -109,6 +130,7 @@ class MainFragment : Fragment() {
             }
 
             AppState.Loading -> {
+                recyclerCard.visibility = View.VISIBLE
                 loadingLayout.visibility = View.VISIBLE
                 changeLoadingAnimation(true)
             }
@@ -125,7 +147,7 @@ class MainFragment : Fragment() {
     private fun setTimeAnimation() {
         coroutineScope.launch {
             while (isActive) {
-                val timeToShow = if (sharedPreferences.syncTime < 0) "Never"
+                val timeToShow = if (sharedPreferences.syncTime < 0) getString(R.string.never)
                 else {
                     val timePassed = System.currentTimeMillis() - sharedPreferences.syncTime
                     val second: Long = timePassed / 1000 % 60
@@ -133,17 +155,17 @@ class MainFragment : Fragment() {
                     val hour: Long = timePassed / (1000 * 60 * 60) % 24
                     String.format("%02d:%02d:%02d", hour, minute, second)
                 }
-                binding.updateTime.text = timeToShow
+                withContext(Dispatchers.Main) { binding.updateTime.text = timeToShow }
             }
         }
     }
 
     private fun refreshPrice() {
-        if (isOnline) {
+        if (isOnline == true) {
             viewModel.getData(true)
         } else Toast.makeText(
             context,
-            "You are offline now!\nConnect to network first!",
+            getString(R.string.offline),
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -153,15 +175,13 @@ class MainFragment : Fragment() {
         coroutineScope.launch {
             networkStatus
                 .isOnline()
-                .collect {
-                    isOnline = it
-                }
+                .collect { isOnline = it }
         }
     }
 
-    private fun handleErrorWithToast(e: Throwable?) {
-        Toast.makeText(context, "Error happened: $e", Toast.LENGTH_SHORT).show()
-    }
+    private fun handleErrorWithToast(e: Throwable?) = Toast
+        .makeText(context, getString(R.string.error_happened) + " " + e, Toast.LENGTH_SHORT)
+        .show()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

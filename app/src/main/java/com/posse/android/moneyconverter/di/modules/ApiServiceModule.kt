@@ -1,6 +1,5 @@
 package com.posse.android.moneyconverter.di.modules
 
-import android.content.SharedPreferences
 import com.posse.android.moneyconverter.model.dataSource.ApiService
 import dagger.Module
 import dagger.Provides

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class AndroidNetworkStatus @Inject constructor(context: Context) : NetworkStatus {
 
-    private val statusSubject: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val statusSubject: MutableStateFlow<Boolean?> = MutableStateFlow(null)
 
     init {
 
@@ -38,5 +38,5 @@ class AndroidNetworkStatus @Inject constructor(context: Context) : NetworkStatus
             })
     }
 
-    override fun isOnline(): StateFlow<Boolean> = statusSubject
+    override fun isOnline(): StateFlow<Boolean?> = statusSubject
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.posse.android.moneyconverter.R
+import com.posse.android.moneyconverter.databinding.ActivityMainBinding
 import com.posse.android.moneyconverter.view.main.MainFragment
 import kotlin.system.exitProcess
 
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
         swapFragment()
     }
 

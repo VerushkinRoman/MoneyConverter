@@ -15,25 +15,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/currency"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/name"
+            app:layout_constraintBottom_toBottomOf="@id/name"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/name_prefix"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/char_code"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/name_prefix"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Австралийский доллар" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/char_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/name"
+            app:layout_constraintTop_toTopOf="@id/name"
+            app:layout_constraintBottom_toBottomOf="@id/name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/name"
             tools:text="(AUD)" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/top_group"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="name_prefix,name,char_code" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/price_prefix"
@@ -41,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="@string/price"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_prefix" />
+            app:layout_constraintTop_toBottomOf="@id/top_group" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/price"
@@ -111,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:lines="1"
+                android:imeOptions="actionDone"
                 android:singleLine="true"
                 tools:ignore="TextContrastCheck"
                 tools:text="2" />
@@ -128,6 +144,7 @@
             android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="0"
             app:layout_constraintBaseline_toBaselineOf="@id/result_prefix"
             app:layout_constraintStart_toEndOf="@id/result_prefix"

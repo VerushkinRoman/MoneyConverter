@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Конвертер валют</string>
+    <string name="currency">Валюта:</string>
+    <string name="price">Цена:</string>
+    <string name="quantity_prefix">RUB за</string>
+    <string name="items">шт.</string>
+    <string name="time_passed_since_last_refresh">Время с прошлого обновления:</string>
+    <string name="amount">Количество</string>
+    <string name="converter_text">Введите количество в RUB чтобы перевести в эту валюту</string>
+    <string name="result">Результат:</string>
+    <string name="no_data">Нет данных</string>
+    <string name="back_again_to_exit">Нажмите \"Назад\" еще раз для выхода!</string>
+    <string name="offline">Вы не подключены к сети!\nСначала подключитесь!</string>
+    <string name="wrong_data">Неправильный тип данных:</string>
+    <string name="never">Никогда</string>
+    <string name="error_happened">Произошла ошибка:</string>
+</resources>

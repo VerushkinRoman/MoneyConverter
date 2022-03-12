@@ -3,7 +3,6 @@ package com.posse.android.moneyconverter.model.dataSource.room
 import com.posse.android.moneyconverter.model.DataSource
 import com.posse.android.moneyconverter.model.data.Currency
 import com.posse.android.moneyconverter.model.data.Response
-import com.posse.android.moneyconverter.model.data.Valute
 import javax.inject.Inject
 
 class RoomImpl @Inject constructor(
@@ -16,10 +15,10 @@ class RoomImpl @Inject constructor(
         currencies.forEach {
             valutes[it.CharCode] = it
         }
-        return Response(null, Valute(valutes))
+        return Response(null, valutes)
     }
 
     override fun saveData(data: Response) {
-        dataBase.currencyDao.insert(data.Valute.valutes.values.toList())
+        dataBase.currencyDao.insert(data.Valute.values.toList())
     }
 }

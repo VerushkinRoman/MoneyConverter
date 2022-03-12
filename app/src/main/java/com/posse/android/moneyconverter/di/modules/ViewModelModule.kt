@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import kotlin.reflect.KClass
 
-@Module
+@Module(includes = [DataSourceModule::class])
 interface ViewModelModule {
 
     @Binds

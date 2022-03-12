@@ -35,12 +35,6 @@ class Adapter : RecyclerView.Adapter<CurrencyHolder>() {
     }
 
     override fun onBindViewHolder(holder: CurrencyHolder, position: Int) {
-        holder.bind(displayData[position]){
-            notifyItemChanged(position)
-        }
-    }
-
-    fun interface OnListItemClickListener {
-        fun onItemClick()
+        holder.bind(displayData[position])
     }
 }

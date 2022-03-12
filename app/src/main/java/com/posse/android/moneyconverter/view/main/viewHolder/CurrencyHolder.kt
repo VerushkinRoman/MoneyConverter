@@ -6,15 +6,14 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.posse.android.moneyconverter.databinding.CurrencyCardBinding
 import com.posse.android.moneyconverter.model.data.Currency
-import com.posse.android.moneyconverter.view.main.adapter.Adapter
 
 class CurrencyHolder(
     private val binding: CurrencyCardBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(data: Currency, listener: Adapter.OnListItemClickListener) = with(binding) {
+    fun bind(data: Currency) = with(binding) {
         setCardData(data)
-        setListener(listener)
+        setListener()
         setMoneyConverter(data)
     }
 
@@ -23,13 +22,13 @@ class CurrencyHolder(
         "(${data.CharCode})".also { charCode.text = it }
         price.text = data.Value.toString()
         quantity.text = data.Nominal.toString()
+        currencyConverter.visibility = View.GONE
     }
 
-    private fun setListener(listener: Adapter.OnListItemClickListener) = with(binding) {
+    private fun setListener() = with(binding) {
         root.setOnClickListener {
             currencyConverter.visibility = if (currencyConverter.isVisible) View.GONE
             else View.VISIBLE
-            listener.onItemClick()
         }
     }
 
@@ -44,7 +43,7 @@ class CurrencyHolder(
             currencyConverterLayout.isEndIconVisible = count <= 0
             val inputNumber = currencyEditText.text.toString().toDoubleOrNull() ?: 0.0
             val price = convertMoney(data, inputNumber)
-            result.text = price.toString()
+            "%.4f".format(price).also { result.text = it }
         }
 
     }

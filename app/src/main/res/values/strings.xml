@@ -9,4 +9,9 @@
     <string name="converter_text">Enter amount in RUB to convert to this currency</string>
     <string name="result">Result:</string>
     <string name="back_again_to_exit">Press \"BACK\" again to exit!</string>
+    <string name="offline">You are offline now!\nConnect to network first!</string>
+    <string name="no_data">No data</string>
+    <string name="wrong_data">Wrong data type:</string>
+    <string name="never">Never</string>
+    <string name="error_happened">Error happened:</string>
 </resources>
